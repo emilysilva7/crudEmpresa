@@ -1,6 +1,7 @@
 package com.example.crudSpring.projetoCRUD.SERVICE;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,12 @@ public void deletarEmpresa(Empresa dadosEmpresa){
 
 
 
-
+public Optional<Empresa> buscaPorId(Long id){
+    return empresaRepository.findById(id);
+}
+public Empresa editarDadoEmpresa(Long id, Empresa dadosAtualizados){
+    return null;  
+}
 
 
     //SELECTS OU INSERTS OU ALTER TABLE OU DELETE
