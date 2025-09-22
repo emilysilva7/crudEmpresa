@@ -3,6 +3,7 @@ package com.example.crudSpring.projetoCRUD.SERVICE;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.query.NativeQuery.ReturnProperty;
 import org.springframework.stereotype.Service;
 
 import com.example.crudSpring.projetoCRUD.ENTITY.Empresa;
@@ -11,13 +12,14 @@ import com.example.crudSpring.projetoCRUD.REPOSITORY.EmpresaRepository;
 @Service
 public class EmpresaService {
 
-    private final EmpresaRepository empresaRepository;
+private final EmpresaRepository empresaRepository;
     //método construtor da classe EmpresaService
     //criando uma ligação com a Classe EmpresaRepository
-    public EmpresaService(EmpresaRepository oEmpresaRepository){
+public EmpresaService(EmpresaRepository oEmpresaRepository){
     empresaRepository = oEmpresaRepository;
     
-    }
+}
+
 public List<Empresa> findAll(){
     return empresaRepository.findAll();
 }//select * from empresa
@@ -30,15 +32,28 @@ public void deletarEmpresa(Empresa dadosEmpresa){
     empresaRepository.delete(dadosEmpresa);
 }
 
-
-
-
 public Optional<Empresa> buscaPorId(Long id){
     return empresaRepository.findById(id);
 }
 public Empresa editarDadoEmpresa(Long id, Empresa dadosAtualizados){
-    return null;  
+
+    Empresa empresaBuscada = buscaPorId(id).orElseThrow(
+        ()-> new IllegalArgumentException("Empresa não encontrada"));
+    empresaBuscada.setNome_empresa(dadosAtualizados.getNome_empresa());
+    empresaBuscada.setCnpj(dadosAtualizados.getCnpj());
+    empresaBuscada.setRamo(dadosAtualizados.getRamo());
+
+    return empresaRepository.save(empresaBuscada);
+    }  
+
+    public List<Empresa> buscarEmpresaPorNome(String nome){
+        return empresaRepository.findByNome_empresaCotainingIgnoreCase(nome);
+    }
+
 }
+
+
+
 
 
     //SELECTS OU INSERTS OU ALTER TABLE OU DELETE
@@ -46,4 +61,4 @@ public Empresa editarDadoEmpresa(Long id, Empresa dadosAtualizados){
     //where nome_empresa = ? (SELECT REALIZA LISTAGEM DE DADOS)
     //retoma todos o dados da empresa (*-Tudo da tabela)
 
-}
+
