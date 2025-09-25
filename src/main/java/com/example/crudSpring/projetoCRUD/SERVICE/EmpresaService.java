@@ -39,7 +39,7 @@ public Empresa editarDadoEmpresa(Long id, Empresa dadosAtualizados){
 
     Empresa empresaBuscada = buscaPorId(id).orElseThrow(
         ()-> new IllegalArgumentException("Empresa não encontrada"));
-    empresaBuscada.setNome_empresa(dadosAtualizados.getNome_empresa());
+    empresaBuscada.setNome(dadosAtualizados.getNome());
     empresaBuscada.setCnpj(dadosAtualizados.getCnpj());
     empresaBuscada.setRamo(dadosAtualizados.getRamo());
 
@@ -47,7 +47,7 @@ public Empresa editarDadoEmpresa(Long id, Empresa dadosAtualizados){
     }  
 
     public List<Empresa> buscarEmpresaPorNome(String nome){
-        return empresaRepository.findByNome_empresaCotainingIgnoreCase(nome);
+        return empresaRepository.findByNomeContainingIgnoreCase(nome);
     }
 
 }
